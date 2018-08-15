@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<br>
+<br?
+
+    <h2>do you wanna delete this Product ?</h2>
+
+
+
+
+<br>
+
+
+<div class="row">
+  <div class="col-sm-1">
+    <button type="button" name="confirm" class="btn btn-danger" onclick="window.location='{% url 'delete_confirm' product.id%}';" >Confirm</button>
+  </div>
+  <div class="col-sm-1">
+    <button type="button" name="cancel" class="btn btn-warning" onclick="window.location='{% url 'myproducts_details' product.id%}';">Cancel</button>
+  </div>
+
+</div>
+
+
+
+
+
+  </div>
+</div>
+
+{% endblock %}

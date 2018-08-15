@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<div class="container">
+  <form class="form-inline" method="GET" action="">
+    {% csrf_token %}
+    <input class="form-control mr-sm-2" type="text" placeholder="Search Product" name='q'  value="{{request.GET.q}}">
+
+    <button class="btn btn-outline-primary" type="submit">Search</button>
+  </form>
+
+<br>
+
+</div>
+{% for pro in myproducts %}
+<div class="container pt-2">
+  <div class="jumbotron p-1">
+    <div class="row pt-2">
+      <div class="col-2" onclick="window.location='{% url 'myproducts_details' pro.id %}';" style="cursor:pointer;">
+        <img src="{{ pro.icon.url }}" height=100 width=100 class="rounded float-left"/>
+      </div>
+      <div class="col-6"  onclick="window.location='{% url 'myproducts_details' pro.id %}';" style="cursor:pointer;">
+        <h1>{{ pro.title }}</h1>
+        <p>{{ pro.summary }}</p>
+      </div>
+      <div class="col-4"  onclick="window.location='{% url 'detail' pro.id %}';" style="cursor:pointer;">
+
+        <p><strong>Published on :</strong> {{pro.pub_date}}</p>
+
+      </div>
+
+  </div>
+</div>
+</div>
+
+{% endfor %}
+<div class="pagination">
+    <span class="step-links">
+        {% if myproducts.has_previous %}
+            <a href="?page=1&q={{request.GET.q}}">&laquo; first</a>
+            <a href="?page={{ myproducts.previous_page_number }}&q={{request.GET.q}}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ myproducts.number }} of {{ myproducts.paginator.num_pages }}.
+        </span>
+
+        {% if myproducts.has_next %}
+            <a href="?page={{ myproducts.next_page_number }}&q={{request.GET.q}}">next</a>
+            <a href="?page={{ myproducts.paginator.num_pages }}&q={{request.GET.q}}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+{% endblock %}

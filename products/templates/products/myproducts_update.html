@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if error %}
+{{error}}
+
+{% endif %}
+<br>
+<br>
+<div class="container">
+  <div class="jumbotron">
+
+    <h2>Update Product</h2>
+  <form action="{% url 'update_confirm' product.id %}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="title">Title:</label>
+      <input type="text" class="form-control" id="email" value={{product.title}} placeholder="please enter title" name="title" required>
+    </div>
+    <div class="form-group">
+      <label for="body">Description:</label>
+      <input type="text" class="form-control" id="body" value={{product.body}} placeholder="Description" name="body" required>
+    </div>
+    <div class="form-group">
+      <label for="url">URL:</label>
+      <input type="text" class="form-control" id="url" value={{product.url}} placeholder="please enter url" name="url" required>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label for="icon">
+            <strong>Icon:</strong></label>
+          <input type="file"  id="icon"  name="icon" >
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label for="url">
+            <strong>Image:</strong></label>
+          <input type="file"  id="image" placeholder="please enter url" name="image" >
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label for="Note">
+
+            <p class="text-muted"><strong>Note: </strong>upload file only if you want to change the Icon else leave blank</p>
+        </div>
+      </div>
+
+    </div>
+
+<br>
+
+
+    <input type="submit" value="Update Product" class="btn btn-primary">
+
+  </form>
+
+
+
+
+
+  </div>
+</div>
+
+{% endblock %}

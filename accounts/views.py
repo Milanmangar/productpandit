@@ -1,6 +1,8 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.models import User
 from django.contrib import auth
+from products.models import Product
+from django.contrib import messages
 
 
 def signup(request):
@@ -31,7 +33,10 @@ def login(request):
             auth.login(request,user)
             return redirect('home')
         else:
-            return render(request,'accounts/login.html',{'error':'username or password is incorrect'})
+
+            messages.error(request,'username or password is incorrect')
+
+            return redirect('home')
 
     else:
         return render(request,'accounts/login.html')

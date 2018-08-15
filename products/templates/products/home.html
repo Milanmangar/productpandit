@@ -1,5 +1,75 @@
 {% extends 'base.html' %}
 
 {% block content %}
-home
+{% if messages %}
+<br>
+<div class="container">
+  {% for message in messages %}
+  <p{% if message.tags %} class="alert alert-danger"{% endif %}>{{ message }}</p>
+  {% endfor %}
+
+{% endif %}
+</div>
+
+<br>
+
+<div class="container">
+  <form class="form-inline" method="GET" action="">
+    {% csrf_token %}
+    <input class="form-control mr-sm-2" type="text" placeholder="Search Product" name='q'  value="{{request.GET.q}}">
+
+    <button class="btn btn-outline-primary" type="submit">Search</button>
+  </form>
+
+<br>
+
+</div>
+{% for pro in product %}
+<div class="container pt-2">
+  <div class="jumbotron p-1">
+    <div class="row pt-2">
+      <div class="col-2" onclick="window.location='{% url 'detail' pro.id %}';" style="cursor:pointer;">
+        <img src="{{ pro.icon.url }}" height=100 width=100 class="rounded float-left"/>
+      </div>
+      <div class="col-4"  onclick="window.location='{% url 'detail' pro.id %}';" style="cursor:pointer;">
+        <h1>{{ pro.title }}</h1>
+        <p>{{ pro.summary }}</p>
+      </div>
+      <div class="col-4"  onclick="window.location='{% url 'detail' pro.id %}';" style="cursor:pointer;">
+
+        <p><strong>Published on :</strong> {{pro.pub_date}}</p>
+        <p><strong>Hunter :</strong> {{pro.hunter}}</p>
+      </div>
+      <div class="col-2">
+        <a href="javascript:{document.getElementById('vote{{ pro.id }}').submit()}"><button class="btn btn-success  btn-block"><span class="oi oi-thumb-up"></span></span> Upvote {{pro.votes_total}}</button></a>
+      </div>
+    </div>
+
+    <form id="vote{{pro.id}}" action="{% url 'upvote' pro.id %}" method="POST">
+      {% csrf_token %}
+      <input type="hidden">
+    </form>
+  </div>
+
+</div>
+
+{% endfor %}
+
+<div class="pagination">
+    <span class="step-links">
+        {% if product.has_previous %}
+            <a href="?page=1&q={{request.GET.q}}">&laquo; first</a>
+            <a href="?page={{ product.previous_page_number }}&q={{request.GET.q}}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ product.number }} of {{ product.paginator.num_pages }}.
+        </span>
+
+        {% if product.has_next %}
+            <a href="?page={{ product.next_page_number }}&q={{request.GET.q}}">next</a>
+            <a href="?page={{ product.paginator.num_pages }}&q={{request.GET.q}}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
 {% endblock %}
